@@ -1,13 +1,12 @@
 <template>
   <div class="">
-
     <div class="container1">
       <select class="border border-black" name="currency" id="currencyList" v-model="selectedCurrency1">
         
         <option v-for="name in computedCurrencyList1" :key="name" >{{ name }}</option>
       </select>
 
-      <input class="block border-black" type="number" v-model="val1" placeholder="Enter Value"> 
+      <input class="block border-black" type="number" v-model="val1" placeholder="Enter Value" @input="changeVal2"> 
     </div>
 
     <div class="container2">
@@ -15,7 +14,7 @@
         
         <option v-for="name in computedCurrencyList2" :key="name" >{{ name }}</option>
       </select>
-      <input class="block border-blue-50" type="number" v-model="val2" placeholder="Enter Value">
+      <input class="block border-blue-50" type="number" v-model="val2" placeholder="Enter Value" @input="changeVal1">
        
     </div>
   
@@ -61,19 +60,17 @@ const computedCurrencyList1 = computed(() => {
 const computedCurrencyList2 = computed(() => {
   return currencyNames.value.filter((currency) => currency !== selectedCurrency1.value)
 })
+ 
 
+// this function calculates the value of val2 when val1 changes
+function changeVal2(){
+  val2.value = (val1.value! / currencyWithVal[selectedCurrency1.value]) * currencyWithVal[selectedCurrency2.value]
+}
 
-// watcher for val1 and val2 if any of these value change the other value get updated
-watch([val1, val2], ([newVal1, newVal2], [oldVal1, oldVal2]): void=>{
-  if (newVal1 !== oldVal1){
-    // logic for converting currecy
-    val2.value = (newVal1! / currencyWithVal[selectedCurrency1.value]) * currencyWithVal[selectedCurrency2.value]
-  }
-  else if (newVal2 !== oldVal2){
-    val1.value = ((newVal2! / currencyWithVal[selectedCurrency2.value]) * currencyWithVal[selectedCurrency1.value])
-  }
-})
-
+// this function calculates the value of val1 when val2 changes
+function changeVal1(){
+  val1.value = (val2.value! / currencyWithVal[selectedCurrency2.value]) * currencyWithVal[selectedCurrency1.value]
+}
 </script>
 
 <style scoped>
