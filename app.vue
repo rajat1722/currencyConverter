@@ -9,6 +9,8 @@
       <input class="block border-black" type="number" v-model="val1" placeholder="Enter Value" @input="changeVal2"> 
     </div>
 
+    <button @click="exchangeValues">&#8644;</button>
+
     <div class="container2">
       <select class="border border-black" name="currency" id="currencyList" v-model="selectedCurrency2">
         
@@ -53,6 +55,7 @@ let val2 = ref<number>()
 
 // this removes selectedCurrency2 from computedCurrencyList1 
 const computedCurrencyList1 = computed(() => {
+  
   return currencyNames.value.filter((currency) => currency !== selectedCurrency2.value)
 })
 
@@ -65,11 +68,24 @@ const computedCurrencyList2 = computed(() => {
 // this function calculates the value of val2 when val1 changes
 function changeVal2(){
   val2.value = (val1.value! / currencyWithVal[selectedCurrency1.value]) * currencyWithVal[selectedCurrency2.value]
+  console.log(2)
 }
 
 // this function calculates the value of val1 when val2 changes
 function changeVal1(){
   val1.value = (val2.value! / currencyWithVal[selectedCurrency2.value]) * currencyWithVal[selectedCurrency1.value]
+  console.log(1)
+}
+
+// this function exchange the value of both inputs and selectedCurrencies
+function exchangeValues(){
+  let temp: currencies | number = selectedCurrency1.value
+  selectedCurrency1.value = selectedCurrency2.value
+  selectedCurrency2.value = temp
+
+  temp = val1.value!
+  val1.value = val2.value
+  val2.value = temp
 }
 </script>
 
