@@ -1,17 +1,17 @@
-<template>
-  <div class="">
-    <div class="container1">
+<template class="dark:bg-black">
+  <div class="container flex mx-auto my-24 justify-center gap-10 text-2xl dark:bg-black ">
+    <div class="container1 flex flex-col">
       <select class="border border-black" name="currency" id="currencyList" v-model="selectedCurrency1">
         
         <option v-for="name in computedCurrencyList1" :key="name" >{{ name }}</option>
       </select>
 
-      <input class="block border-black" type="number" v-model="val1" placeholder="Enter Value" @input="changeVal2"> 
+      <input class="block border-black dark:bg-black" type="number" v-model="val1" placeholder="Enter Value" @input="changeVal2"> 
     </div>
 
-    <button @click="exchangeValues">&#8644;</button>
+    <button @click="exchangeValues" class="">&#8644;</button>
 
-    <div class="container2">
+    <div class="container2 flex flex-col ">
       <select class="border border-black" name="currency" id="currencyList" v-model="selectedCurrency2">
         
         <option v-for="name in computedCurrencyList2" :key="name" >{{ name }}</option>
@@ -86,6 +86,17 @@ function exchangeValues(){
   temp = val1.value!
   val1.value = val2.value
   val2.value = temp
+}
+
+// Manual Theme Switch
+const themeSwitch = () => {
+  if (document.documentElement.classList.contains("dark")){
+    document.documentElement.classList.remove("dark")
+    localStorage.setItem("theme", "light")
+    return 
+  }
+  document.documentElement.classList.add("dark")
+  localStorage.setItem("theme", "dark")
 }
 </script>
 
